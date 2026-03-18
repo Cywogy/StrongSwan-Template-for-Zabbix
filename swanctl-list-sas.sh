@@ -3,8 +3,6 @@ RUN=$(sudo swanctl --list-sas --raw)
 
 case "$1" in
     "childsas")
-        child_sas_block=$(echo "$RUN" | grep -oP 'child-sas \{.*\}\}' | head -1)
-
         result="["
         first=true
 
@@ -12,17 +10,17 @@ case "$1" in
             [[ -z "$sa" ]] && continue
 
             name=$(echo "$sa"        | grep -oP 'name=\K[^\s}]+')
-            bytes_in=$(echo "$sa"    | grep -oP 'bytes-in=\K[0-9]+' | head -1)
-            bytes_out=$(echo "$sa"   | grep -oP 'bytes-out=\K[0-9]+' | head -1)
-            packets_in=$(echo "$sa"  | grep -oP 'packets-in=\K[0-9]+' | head -1)
-            packets_out=$(echo "$sa" | grep -oP 'packets-out=\K[0-9]+' | head -1)
+            bytes_in=$(echo "$sa"    | grep -oP 'bytes-in=\K[0-9]+')
+            bytes_out=$(echo "$sa"   | grep -oP 'bytes-out=\K[0-9]+')
+            packets_in=$(echo "$sa"  | grep -oP 'packets-in=\K[0-9]+')
+            packets_out=$(echo "$sa" | grep -oP 'packets-out=\K[0-9]+')
 
             [[ -z "$name" ]] && continue
 
             $first || result+=","
             first=false
             result+="{\"name\": \"$name\", \"bytes_in\": \"${bytes_in:-0}\", \"bytes_out\": \"${bytes_out:-0}\", \"packets_in\": \"${packets_in:-0}\", \"packets_out\": \"${packets_out:-0}\"}"
-        done < <(echo "$child_sas_block" | grep -oP '\w+-\w+-\d+ \{[^}]+\}|\w+-\d+ \{[^}]+\}')
+        done < <(echo "$RUN" | grep -oP '[\w-]+-\d+ \{[^}]+\}')
 
         result+="]"
         echo "$result"
