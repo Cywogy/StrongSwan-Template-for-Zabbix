@@ -1,5 +1,5 @@
 ## Stack
-StrongSwan: 5.9.5 (swanctl) || Zabbix: 6.0.4
+StrongSwan: 5.9.5 (swanctl) || Zabbix: 7.4
 
 ## File Structure
 ```
