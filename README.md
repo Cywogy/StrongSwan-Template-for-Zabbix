@@ -33,4 +33,4 @@ AllowKey=system.run[sudo /usr/bin/systemctl restart strongswan,nowait]
 DenyKey=system.run[*]
 ```
 ### Alerts
-Trigger `min(/template_swanctl/swanctl.ikesas.half-open,5m)<>0` checks the last 5min of the swanctl.ikesas.half-open metric
+Trigger `max(/template_swanctl/swanctl.ikesas.total,5m)=0` checks the last 5min of the swanctl.ikesas.half-open metric
