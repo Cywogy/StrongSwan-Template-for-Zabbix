@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>6.0</version>
-    <date>2026-02-06T15:02:54Z</date>
+    <date>2026-03-18T10:58:43Z</date>
     <groups>
         <group>
             <uuid>c8e2277ecfb14278b8c488c217f99466</uuid>
@@ -68,18 +68,6 @@
                             <value>IPSec</value>
                         </tag>
                     </tags>
-                    <triggers>
-                        <trigger>
-                            <uuid>167fa5222c9d42969eb53a1352972ca8</uuid>
-                            <expression>min(/template_swanctl/swanctl.ikesas.half-open,5m)&lt;&gt;0</expression>
-                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
-                            <recovery_expression>min(/template_swanctl/swanctl.ikesas.half-open,10m)&lt;&gt;0</recovery_expression>
-                            <name>IPsec туннель недоступен</name>
-                            <priority>DISASTER</priority>
-                            <description>last(/template_swanctl/swanctl.ikesas.half-open,#5)&lt;&gt;0</description>
-                            <manual_close>YES</manual_close>
-                        </trigger>
-                    </triggers>
                 </item>
                 <item>
                     <uuid>bf2a2bea09ad41759302dce5ff05d8b9</uuid>
@@ -104,6 +92,15 @@
                             <value>IPSec</value>
                         </tag>
                     </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>167fa5222c9d42969eb53a1352972ca8</uuid>
+                            <expression>max(/template_swanctl/swanctl.ikesas.total,5m)=0</expression>
+                            <name>IPsec туннель недоступен</name>
+                            <priority>DISASTER</priority>
+                            <manual_close>YES</manual_close>
+                        </trigger>
+                    </triggers>
                 </item>
                 <item>
                     <uuid>28f92db35feb4564bcb6541e4d946f41</uuid>
@@ -498,11 +495,10 @@
                         <graph_prototype>
                             <uuid>4e355897916743599ca3455359891447</uuid>
                             <name>Bytes in_out [{#NAME}]</name>
-                            <ymin_type_1>FIXED</ymin_type_1>
                             <graph_items>
                                 <graph_item>
                                     <color>2E7D32</color>
-                                    <calc_fnc>ALL</calc_fnc>
+                                    <calc_fnc>MIN</calc_fnc>
                                     <item>
                                         <host>template_swanctl</host>
                                         <key>swanctl.childsas.traffic.bytes_in[{#NAME}]</key>
@@ -511,7 +507,7 @@
                                 <graph_item>
                                     <sortorder>1</sortorder>
                                     <color>1976D2</color>
-                                    <calc_fnc>ALL</calc_fnc>
+                                    <calc_fnc>MIN</calc_fnc>
                                     <item>
                                         <host>template_swanctl</host>
                                         <key>swanctl.childsas.traffic.bytes_out[{#NAME}]</key>
@@ -522,11 +518,10 @@
                         <graph_prototype>
                             <uuid>4ee7fcc0306744449694a932c6b92755</uuid>
                             <name>Packets in_out [{#NAME}]</name>
-                            <ymin_type_1>FIXED</ymin_type_1>
                             <graph_items>
                                 <graph_item>
                                     <color>2E7D32</color>
-                                    <calc_fnc>ALL</calc_fnc>
+                                    <calc_fnc>MIN</calc_fnc>
                                     <item>
                                         <host>template_swanctl</host>
                                         <key>swanctl.childsas.traffic.packets_in[{#NAME}]</key>
@@ -535,7 +530,7 @@
                                 <graph_item>
                                     <sortorder>1</sortorder>
                                     <color>1976D2</color>
-                                    <calc_fnc>ALL</calc_fnc>
+                                    <calc_fnc>MIN</calc_fnc>
                                     <item>
                                         <host>template_swanctl</host>
                                         <key>swanctl.childsas.traffic.packets_out[{#NAME}]</key>
@@ -580,9 +575,14 @@
                             <widgets>
                                 <widget>
                                     <type>GRAPH_PROTOTYPE</type>
-                                    <width>24</width>
+                                    <width>12</width>
                                     <height>5</height>
                                     <fields>
+                                        <field>
+                                            <type>INTEGER</type>
+                                            <name>columns</name>
+                                            <value>1</value>
+                                        </field>
                                         <field>
                                             <type>GRAPH_PROTOTYPE</type>
                                             <name>graphid</name>
@@ -595,10 +595,15 @@
                                 </widget>
                                 <widget>
                                     <type>GRAPH_PROTOTYPE</type>
-                                    <y>5</y>
-                                    <width>24</width>
+                                    <x>12</x>
+                                    <width>12</width>
                                     <height>5</height>
                                     <fields>
+                                        <field>
+                                            <type>INTEGER</type>
+                                            <name>columns</name>
+                                            <value>1</value>
+                                        </field>
                                         <field>
                                             <type>GRAPH_PROTOTYPE</type>
                                             <name>graphid</name>
